@@ -64,8 +64,8 @@
     background: var(--teal-400); display: flex; align-items: center; justify-content: center;
   }
   .nav-logo-mark svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .nav-title { font-family: var(--font-body); font-size: 16px; font-weight: 500; color: var(--gray-800); }
-  .nav-badge { font-size: 13px; background: var(--teal-50); color: var(--teal-600); padding: 2px 8px; border-radius: 20px; font-weight: 500; letter-spacing: 0.03em; }
+  .nav-title { font-family: var(--font-body); font-size: 16px; font-weight: 500; color: var(--gray-800); text-decoration: none; }
+  .nav-badge { font-size: 13px; background: var(--teal-50); color: var(--teal-600); padding: 2px 8px; border-radius: 20px; font-weight: 500; letter-spacing: 0.03em; text-decoration: none; }
   .nav-links { display: flex; gap: 28px; }
   .nav-links a { font-size: 15px; color: var(--gray-600); text-decoration: none; transition: color 0.15s; }
   .nav-links a:hover { color: var(--gray-800); }
@@ -314,8 +314,8 @@
     <div class="nav-logo-mark">
       <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
     </div>
-    <span class="nav-title">Scientific Computing</span>
-    <span class="nav-badge">BSU VIP</span>
+    <a href="home.html" class="nav-title">CSC</a>
+    <a href="https://www.boisestate.edu/vip/" class="nav-badge">BSU VIP</a>
   </div>
   <nav class="nav-links">
     <a href="#about">About</a>
