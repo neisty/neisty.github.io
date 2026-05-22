@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Computing · BSU VIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal-50: #E6EBF5;
+    --teal-100: #B3C1E0;
+    --teal-400: #0033A0;
+    --teal-600: #002277;
+    --teal-800: #001144;
+    --bsu-orange-50: #FDF0E8;
+    --bsu-orange-400: #D64309;
+    --bsu-orange-600: #A83307;
+    --blue-50: #E6F1FB;
+    --blue-400: #378ADD;
+    --blue-600: #185FA5;
+    --purple-50: #EEEDFE;
+    --purple-400: #7F77DD;
+    --purple-600: #534AB7;
+    --gray-50: #F7F6F3;
+    --gray-100: #EEECEA;
+    --gray-200: #D3D1C7;
+    --gray-600: #3D3C38;
+    --gray-800: #141413;
+    --amber-50: #FAEEDA;
+    --amber-600: #854F0B;
+    --coral-50: #FAECE7;
+    --coral-600: #993C1D;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--gray-800);
+    background: #FAFAF8;
+    font-size: 18px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+  }
+  .nav-left { display: flex; align-items: center; gap: 12px; }
+  .nav-logo-mark {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--teal-400); display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo-mark svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-title { font-family: var(--font-body); font-size: 16px; font-weight: 500; color: var(--gray-800); }
+  .nav-badge { font-size: 13px; background: var(--teal-50); color: var(--teal-600); padding: 2px 8px; border-radius: 20px; font-weight: 500; letter-spacing: 0.03em; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 15px; color: var(--gray-600); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--gray-800); }
+
+  /* HERO */
+  .hero {
+    padding: 100px 40px 80px;
+    background: linear-gradient(160deg, #EDF2FB 0%, #FAFAF8 50%, #F0F4FB 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,51,160,0.08) 0%, transparent 70%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -60px; left: 10%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(55,138,221,0.06) 0%, transparent 70%);
+  }
+  .hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; text-align: center; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal-600); margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 20px; height: 1px; background: var(--teal-400);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 5.5vw, 66px);
+    font-weight: 400; line-height: 1.1;
+    color: var(--teal-400); margin-bottom: 20px;
+    letter-spacing: -0.02em; white-space: nowrap;
+  }
+  .hero h1 em { font-style: italic; color: var(--bsu-orange-400); }
+  .hero-desc {
+    font-size: 19px; color: var(--gray-600); line-height: 1.75;
+    max-width: 680px; margin: 0 auto 36px; font-weight: 400;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: center; }
+  .btn-primary {
+    background: var(--bsu-orange-400); color: white; border: none;
+    padding: 12px 28px; border-radius: 8px; font-size: 16px; font-weight: 500;
+    font-family: var(--font-body); cursor: pointer; transition: background 0.15s, transform 0.1s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--bsu-orange-600); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--gray-600);
+    border: 1px solid var(--gray-200); padding: 12px 28px; border-radius: 8px;
+    font-size: 16px; font-weight: 400; font-family: var(--font-body); cursor: pointer;
+    transition: border-color 0.15s, color 0.15s; text-decoration: none; display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--gray-600); color: var(--gray-800); }
+
+  /* STATS */
+  .stats-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--gray-200);
+    background: white;
+  }
+  .stat { padding: 24px 32px; border-right: 1px solid var(--gray-200); }
+  .stat:last-child { border-right: none; }
+  .stat-val { font-family: var(--font-display); font-size: 30px; color: var(--bsu-orange-400); margin-bottom: 4px; }
+  .stat-label { font-size: 14px; color: var(--gray-600); font-weight: 400; }
+
+  /* SECTIONS */
+  section { padding: 72px 40px; }
+  .section-label {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal-600); margin-bottom: 8px;
+  }
+  .section-title { font-family: var(--font-display); font-size: 38px; font-weight: 400; margin-bottom: 12px; letter-spacing: -0.01em; }
+  .section-sub { font-size: 17px; color: var(--gray-600); margin-bottom: 40px; font-weight: 400; }
+
+  /* PILLARS */
+  #about { background: white; }
+  .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
+  .pillar { background: white; padding: 28px 24px; }
+  .pillar-num { font-family: var(--font-display); font-size: 40px; color: var(--bsu-orange-400); line-height: 1; margin-bottom: 12px; }
+  .pillar h3 { font-size: 17px; font-weight: 500; margin-bottom: 8px; }
+  .pillar p { font-size: 15px; color: var(--gray-600); line-height: 1.6; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .card {
+    background: var(--gray-50); border: 1px solid var(--gray-100);
+    border-radius: 10px; padding: 20px;
+  }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--teal-50); display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .card-icon svg { width: 18px; height: 18px; stroke: var(--teal-600); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .card h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .card p { font-size: 15px; color: var(--gray-600); line-height: 1.55; }
+
+  /* TRACKS */
+  #tracks { background: var(--gray-50); }
+  .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .track {
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: 12px; padding: 28px 24px; position: relative;
+  }
+  .track.featured { border-color: var(--teal-100); border-width: 1.5px; }
+  .track-tag {
+    font-size: 11px; font-weight: 500; padding: 4px 10px;
+    border-radius: 20px; display: inline-block; margin-bottom: 14px; letter-spacing: 0.04em;
+  }
+  .tag-lower { background: var(--teal-50); color: var(--teal-600); }
+  .tag-upper { background: var(--blue-50); color: var(--blue-600); }
+  .tag-grad { background: var(--purple-50); color: var(--purple-600); }
+  .track h3 { font-size: 19px; font-weight: 500; margin-bottom: 10px; }
+  .track p { font-size: 15px; color: var(--gray-600); line-height: 1.6; margin-bottom: 16px; }
+  .track-meta { display: flex; flex-direction: column; gap: 6px; }
+  .track-meta-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-600); }
+  .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bsu-orange-400); flex-shrink: 0; }
+  .hpc-callout {
+    background: white; border: 1px solid var(--gray-200); border-radius: 10px;
+    padding: 20px 24px; display: flex; align-items: center; gap: 20px;
+  }
+  .hpc-callout-icon {
+    width: 44px; height: 44px; border-radius: 10px; background: var(--gray-50);
+    border: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .hpc-callout-icon svg { width: 22px; height: 22px; stroke: var(--gray-600); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .hpc-callout h4 { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .hpc-callout p { font-size: 15px; color: var(--gray-600); }
+
+  /* TOPICS */
+  #topics { background: white; }
+  .topics { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; }
+  .topic-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 20px; border-bottom: 1px solid var(--gray-100);
+    background: white; transition: background 0.1s;
+  }
+  .topic-row:last-child { border-bottom: none; }
+  .topic-row:hover { background: var(--gray-50); }
+  .topic-id {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.05em;
+    color: var(--teal-600); background: var(--teal-50);
+    padding: 3px 8px; border-radius: 5px; white-space: nowrap; flex-shrink: 0;
+  }
+  .topic-name { flex: 1; font-size: 16px; font-weight: 400; }
+  .bloom {
+    font-size: 13px; padding: 3px 9px; border-radius: 20px;
+    white-space: nowrap; font-weight: 500;
+  }
+  .bloom-1 { background: var(--gray-100); color: var(--gray-600); }
+  .bloom-2 { background: var(--blue-50); color: var(--blue-600); }
+  .bloom-3 { background: #FDE8DC; color: #B33000; }
+  .bloom-4 { background: var(--amber-50); color: var(--amber-600); }
+  .bloom-5 { background: var(--purple-50); color: var(--purple-600); }
+  .bloom-6 { background: var(--coral-50); color: var(--coral-600); }
+
+  /* FACULTY */
+  #faculty { background: var(--gray-50); }
+  .faculty-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .faculty-card {
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: 12px; padding: 28px 24px;
+  }
+  .avatar {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 16px;
+    margin-bottom: 16px;
+  }
+  .avatar-teal { background: var(--teal-50); color: var(--teal-600); }
+  .avatar-blue { background: var(--blue-50); color: var(--blue-600); }
+  .avatar-purple { background: var(--purple-50); color: var(--purple-600); }
+  .faculty-role { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--teal-600); margin-bottom: 4px; }
+  .faculty-card h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  .faculty-card p { font-size: 15px; color: var(--gray-600); line-height: 1.6; }
+
+  /* ENROLL */
+  #enroll { background: white; }
+  .enroll-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 640px) { .enroll-grid { grid-template-columns: 1fr; } }
+  .enroll-steps { display: flex; flex-direction: column; gap: 20px; }
+  .step { display: flex; gap: 16px; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--bsu-orange-400); color: white;
+    font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-body h4 { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .step-body p { font-size: 15px; color: var(--gray-600); line-height: 1.55; }
+  .enroll-aside {
+    background: var(--gray-50); border: 1px solid var(--gray-200);
+    border-radius: 12px; padding: 28px;
+  }
+  .enroll-aside h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  .enroll-aside p { font-size: 15px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.6; }
+  .credit-info { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .credit-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 15px; padding: 10px 14px; background: white;
+    border: 1px solid var(--gray-100); border-radius: 8px;
+  }
+  .credit-row span:first-child { color: var(--gray-600); }
+  .credit-row span:last-child { font-weight: 500; }
+  .conf-section { margin-top: 4px; }
+  .conf-section p { font-size: 14px; color: var(--gray-600); margin-bottom: 10px; }
+  .conf-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .conf-tag { font-size: 13px; padding: 4px 10px; border-radius: 20px; background: var(--purple-50); color: var(--purple-600); font-weight: 500; }
+
+  /* FOOTER */
+  footer {
+    background: var(--gray-800); color: white;
+    padding: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap;
+  }
+  .footer-left { display: flex; align-items: center; gap: 12px; }
+  .footer-logo {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--teal-400); display: flex; align-items: center; justify-content: center;
+  }
+  .footer-logo svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .footer-name { font-size: 16px; font-weight: 500; }
+  .footer-sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+  .footer-right { font-size: 14px; color: rgba(255,255,255,0.7); text-align: right; }
+  .footer-right a { color: rgba(255,255,255,0.85); text-decoration: none; }
+  .footer-right a:hover { color: white; }
+
+  @media (max-width: 700px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 24px 48px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 20px; }
+    section { padding: 48px 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+    .footer-right { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+    </div>
+    <span class="nav-title">Scientific Computing</span>
+    <span class="nav-badge">BSU VIP</span>
+  </div>
+  <nav class="nav-links">
+    <a href="#about">About</a>
+    <a href="#tracks">Tracks</a>
+    <a href="#topics">Topics</a>
+    <a href="#faculty">Faculty</a>
+    <a href="#enroll">Enroll</a>
+    <a href="course-schedule.html">Schedule</a>
+  </nav>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Boise State University · Vertically Integrated Projects</div>
+    <h1>Correct Scientific Computing</h1>
+    <p class="hero-desc">Bridging numerical analysis, software correctness, and research training to produce scientifically valid, reproducible computational results — from fundamentals to conference-ready research. This is an NSF-funded project. Top students receive travel scholarships to present posters and network with experts in the field at leading conferences.</p>
+    <div class="hero-actions">
+      <a href="#enroll" class="btn-primary">Express interest</a>
+      <a href="#about" class="btn-ghost">Learn more</a>
+    </div>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stat"><div class="stat-val">VIP 200/400/500</div><div class="stat-label">Course levels available</div></div>
+  <div class="stat"><div class="stat-val">1–2 credits</div><div class="stat-label">Per semester (~40 hrs/credit)</div></div>
+  <div class="stat"><div class="stat-val">6+ domains</div><div class="stat-label">Physics, biology, chemistry & more</div></div>
+  <div class="stat"><div class="stat-val">Repeatable</div><div class="stat-label">Up to 6 semesters</div></div>
+</div>
+
+<section id="about">
+  <div class="section-label">About the course</div>
+  <h2 class="section-title">Three pillars, one unified curriculum</h2>
+  <p class="section-sub">Each pillar is not a separate skill — they are interconnected aspects of producing valid scientific results.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <h3>Numerical analysis</h3>
+      <p>Understand the mathematical properties and limitations of computational methods — from integration and interpolation to root-finding and differential equations.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <h3>Software correctness</h3>
+      <p>Write specifications, design rigorous test suites, and ensure implementations are reliable, testable, and reproducible across platforms and collaborators.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <h3>Research training</h3>
+      <p>Guided through the full lifecycle — problem formulation to conference dissemination — across chemistry, geophysics, physics, biology, and applied math.</p>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><path d="M18 2v6h6"/></svg>
+      </div>
+      <h3>LLM-generated code review</h3>
+      <p>Critically evaluate AI-assisted code for correctness, numerical stability, and hidden assumptions that can corrupt scientific results.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <h3>HPC computing (Borah)</h3>
+      <p>Develop and execute code on Boise State's Borah cluster and other high-performance computing environments.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <h3>Legacy code validation</h3>
+      <p>Work with real scientific codebases that lack modern testing or verification, learning to validate and trust computational outcomes.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </div>
+      <h3>Reproducible workflows</h3>
+      <p>Apply version control, environment management, and documentation practices that make computational results shareable and trustworthy.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tracks">
+  <div class="section-label">Enrollment tracks</div>
+  <h2 class="section-title">Your role deepens every semester</h2>
+  <p class="section-sub">The course can be taken multiple times — new students master fundamentals while returning students conduct independent research.</p>
+
+  <div class="track-grid">
+    <div class="track featured">
+      <span class="track-tag tag-lower">VIP 200 · Lower division</span>
+      <h3>Foundations</h3>
+      <p>Master the core curriculum: numerical algorithms, program specification, testing principles, and a guided project in a domain of your choice.</p>
+      <div class="track-meta">
+        <div class="track-meta-row"><span class="meta-dot"></span>Up to 4 semesters</div>
+        <div class="track-meta-row"><span class="meta-dot"></span>~80 hrs/semester at 2 credits</div>
+        <div class="track-meta-row"><span class="meta-dot"></span>Open to all majors, no prerequisites</div>
+      </div>
+    </div>
+    <div class="track">
+      <span class="track-tag tag-upper">VIP 400 · Upper division</span>
+      <h3>Independent research</h3>
+      <p>Take ownership of a computational research project, incorporating advanced numerical methods and correctness techniques in your domain.</p>
+      <div class="track-meta">
+        <div class="track-meta-row"><span class="meta-dot"></span>Up to 6 semesters</div>
+        <div class="track-meta-row"><span class="meta-dot"></span>~80 hrs/semester at 2 credits</div>
+        <div class="track-meta-row"><span class="meta-dot"></span>Conference submission goal</div>
+      </div>
+    </div>
+    <div class="track">
+      <span class="track-tag tag-grad">VIP 500 · Graduate</span>
+      <h3>Advanced scholarship</h3>
+      <p>Lead sub-teams, tackle domain-specific numerical challenges, and mentor junior members while advancing your own research agenda.</p>
+      <div class="track-meta">
+        <div class="track-meta-row"><span class="meta-dot"></span>Up to 6 semesters</div>
+        <div class="track-meta-row"><span class="meta-dot"></span>~80 hrs/semester at 2 credits</div>
+        <div class="track-meta-row"><span class="meta-dot"></span>Peer-reviewed dissemination</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hpc-callout">
+    <div class="hpc-callout-icon">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+    </div>
+    <div>
+      <h4>Compute access: Borah HPC cluster</h4>
+      <p>All students gain access to Boise State's Borah high-performance computing cluster. New students complete hands-on onboarding to running and managing scientific code in a production HPC environment.</p>
+    </div>
+  </div>
+</section>
+
+<section id="topics">
+  <div class="section-label">Course topics</div>
+  <h2 class="section-title">Eight topic areas</h2>
+  <p class="section-sub">Covering the full breadth of correct scientific programming, ordered by Bloom's taxonomy level.</p>
+
+  <div class="topics">
+    <div class="topic-row">
+      <span class="topic-id">T1</span>
+      <span class="topic-name">Editing and running scientific code on Borah / Onyx HPC</span>
+      <span class="bloom bloom-1">Remembering</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T2</span>
+      <span class="topic-name">Direct algorithms: numerical integration, differentiation, Gaussian elimination, interpolation</span>
+      <span class="bloom bloom-2">Understanding</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T3</span>
+      <span class="topic-name">Iterative algorithms: root-finding, optimization, fixed point methods</span>
+      <span class="bloom bloom-2">Understanding</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T4</span>
+      <span class="topic-name">Program specification and requirements for scientific software</span>
+      <span class="bloom bloom-5">Evaluating</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T5</span>
+      <span class="topic-name">Testing concepts and test case development</span>
+      <span class="bloom bloom-4">Analyzing</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T6</span>
+      <span class="topic-name">Discretization approaches for differential equations</span>
+      <span class="bloom bloom-3">Applying</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T7</span>
+      <span class="topic-name">Developing a computational research project from inception to dissemination</span>
+      <span class="bloom bloom-6">Creating</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-id">T8</span>
+      <span class="topic-name">Reproducible scientific workflows: version control, environments, documentation</span>
+      <span class="bloom bloom-3">Applying</span>
+    </div>
+  </div>
+</section>
+
+<section id="faculty">
+  <div class="section-label">Faculty</div>
+  <h2 class="section-title">Three experts, one team</h2>
+  <p class="section-sub">Faculty with complementary expertise guide your progress across all enrollment tiers.</p>
+
+  <div class="faculty-grid">
+    <div class="faculty-card">
+      <div class="avatar avatar-teal">N</div>
+      <div class="faculty-role">Project supervisor</div>
+      <h3>Dr. Nasir Eisty</h3>
+      <p>Software analytics, AI/ML systems, and software testing. Oversees student research projects and connects work to national laboratory and research software engineering contexts.</p>
+    </div>
+    <div class="faculty-card">
+      <div class="avatar avatar-blue">E</div>
+      <div class="faculty-role">Fundamentals instructor</div>
+      <h3>Dr. Elena Sherman</h3>
+      <p>Leads new students through the core curriculum — numerical algorithms, correctness principles, and the guided first-semester project.</p>
+    </div>
+    <div class="faculty-card">
+      <div class="avatar avatar-purple">G</div>
+      <div class="faculty-role">Domain expert</div>
+      <h3>Dr. Grady Wright</h3>
+      <p>Specializes in complex numerical methods and domain-specific equation solving. Advises advanced projects requiring specialized computational techniques.</p>
+    </div>
+  </div>
+</section>
+
+<section id="enroll">
+  <div class="section-label">How to join</div>
+  <h2 class="section-title">No prerequisites — all majors welcome</h2>
+  <p class="section-sub">VIP courses require a permission number from the instructor. Here's how to get started.</p>
+
+  <div class="enroll-grid">
+    <div class="enroll-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Express interest</h4>
+          <p>Complete the BSU VIP Interest in Registering form at <strong>boisestate.edu/vip</strong> or contact the instructor directly to request a permission number.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Register</h4>
+          <p>Use your permission number to enroll in VIP 200, VIP 400, or VIP 500 for 1 or 2 credits. Each credit equals approximately 40 hours of work per semester.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Attend the first meeting</h4>
+          <p>Get oriented to the Borah HPC cluster, meet your cohort of new and returning students, and choose your project focus area.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Return and advance</h4>
+          <p>Re-enroll each semester to take on increasing independence, lead sub-teams, and ultimately target regional conference dissemination.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="enroll-aside">
+      <h3>Credit & logistics</h3>
+      <p>Credits typically count as elective credits — talk to your advisor about research, capstone, or experiential learning options.</p>
+      <div class="credit-info">
+        <div class="credit-row"><span>Credits available</span><span>1 or 2 per semester</span></div>
+        <div class="credit-row"><span>Hours per credit</span><span>~40 hrs/semester</span></div>
+        <div class="credit-row"><span>Undergraduate max</span><span>VIP 200: 4 semesters</span></div>
+        <div class="credit-row"><span></span><span>VIP 400: 6 semesters</span></div>
+        <div class="credit-row"><span>Graduate max</span><span>VIP 500: 6 semesters</span></div>
+        <div class="credit-row"><span>Contact</span><span><a href="mailto:vip@boisestate.edu" style="color:var(--teal-600);">vip@boisestate.edu</a></span></div>
+      </div>
+      <div class="conf-section">
+        <p>Advanced students may target dissemination at:</p>
+        <div class="conf-tags">
+          <span class="conf-tag">SIAM Pacific Northwest</span>
+          <span class="conf-tag">SIAM Northern States</span>
+          <span class="conf-tag">Rocky Mountain ACC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">
+      <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <div class="footer-name">Scientific Computing</div>
+      <div class="footer-sub">Boise State University · Vertically Integrated Projects</div>
+    </div>
+  </div>
+  <div class="footer-right">
+    <a href="https://www.boisestate.edu/vip/">boisestate.edu/vip</a><br>
+    <span>vip@boisestate.edu · (208) 426-1905</span>
+  </div>
+</footer>
+
+</body>
+</html>
